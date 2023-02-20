@@ -70,60 +70,32 @@ class DifferenceElementCalculator {
     }
 
     static boolean matching(CsmElement a, CsmElement b) {
-        if (a instanceof CsmChild) {
-            CodeCoverage.setFlag(1); //branch
-            if (b instanceof CsmChild) {
-                CodeCoverage.setFlag(2); //branch
+        if(!validate(a, b)) throw new UnsupportedOperationException(a.getClass().getSimpleName() + " " + b.getClass().getSimpleName());
+        if(a.getClass() == b.getClass()){
+            if (a instanceof CsmChild){
                 CsmChild childA = (CsmChild) a;
                 CsmChild childB = (CsmChild) b;
                 return childA.getChild().equals(childB.getChild());
-            } else if (b instanceof CsmToken) {
-                CodeCoverage.setFlag(3); //branch
-                return false;
-            } else if (b instanceof CsmIndent) {
-                CodeCoverage.setFlag(4); //branch
-                return false;
-            } else if (b instanceof CsmUnindent) {
-                CodeCoverage.setFlag(5); //branch
-                return false;
-            } else {
-                CodeCoverage.setFlag(6); //branch
-                throw new UnsupportedOperationException(a.getClass().getSimpleName() + " " + b.getClass().getSimpleName());
             }
-        } else if (a instanceof CsmToken) {
-            CodeCoverage.setFlag(7); //branch
-            if (b instanceof CsmToken) {
-                CodeCoverage.setFlag(8); //branch
-                // fix #2382:
-                // Tokens are described by their type AND their content
-                // and TokenContentCalculator. By using .equals(), all
-                // three values are compared.
+            else if (a instanceof CsmToken){
                 CsmToken childA = (CsmToken) a;
                 CsmToken childB = (CsmToken) b;
                 return childA.equals(childB);
-            } else if (b instanceof CsmChild) {
-                CodeCoverage.setFlag(9); //branch
-                return false;
-            } else if (b instanceof CsmIndent) {
-                CodeCoverage.setFlag(10); //branch
-                return false;
-            } else if (b instanceof CsmUnindent) {
-                CodeCoverage.setFlag(11); //branch
-                return false;
-            } else {
-                CodeCoverage.setFlag(12); //branch
-                throw new UnsupportedOperationException(a.getClass().getSimpleName() + " " + b.getClass().getSimpleName());
             }
-        } else if (a instanceof CsmIndent) {
-            CodeCoverage.setFlag(13); //branch
-            return b instanceof CsmIndent;
-        } else if (a instanceof CsmUnindent) {
-            CodeCoverage.setFlag(14); //branch
-            return b instanceof CsmUnindent;
+            return true;
         }
-        CodeCoverage.setFlag(15); //branch
-        throw new UnsupportedOperationException(a.getClass().getSimpleName() + " " + b.getClass().getSimpleName());
+        return false;
     }
+    /**
+     * checks if both a and b are instances of either CsmChild, CsmToken, CsmIndend or CsmUnindent
+     * @param a
+     * @param b
+     * @return true only if both a and b are valid
+     */
+    static boolean validate(CsmElement a, CsmElement b){
+        return (a instanceof CsmChild || a instanceof CsmToken || a instanceof CsmIndent || a instanceof CsmUnindent) && (b instanceof CsmChild || b instanceof CsmToken || b instanceof CsmIndent || b instanceof CsmUnindent);
+    }
+
 
     private static boolean replacement(CsmElement a, CsmElement b) {
         if (a instanceof CsmIndent || b instanceof CsmIndent || a instanceof CsmUnindent || b instanceof CsmUnindent) {
