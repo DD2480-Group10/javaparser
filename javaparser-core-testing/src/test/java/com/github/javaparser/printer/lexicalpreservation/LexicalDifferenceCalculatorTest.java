@@ -46,8 +46,11 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.io.IOException;
 import java.util.List;
+import java.util.*;
 
 import static com.github.javaparser.TokenTypes.eolTokenKind;
 import static com.github.javaparser.TokenTypes.spaceTokenKind;
@@ -87,6 +90,173 @@ class LexicalDifferenceCalculatorTest extends AbstractLexicalPreservingTest {
             throw new RuntimeException(e);
         }
     }
+
+    // Tests added for coverage of toToken method
+
+
+    // Test that covers branch 1.
+    // Creates a modifier with the public keyword.
+    // Checks so that the toToken method returns the correct
+    // constant (token).
+    // assettion should asset to true.
+    @Test
+    void toTokenTestPublic(){
+        Modifier modifier = Modifier.publicModifier();
+        int token = LexicalDifferenceCalculator.toToken(modifier);
+        assertEquals(token, GeneratedJavaParserConstants.PUBLIC);
+    }
+
+    // Test that covers branch 2.
+    // Creates a modifier with the private keyword.
+    // Checks so that the toToken method returns the correct
+    // constant (token).
+    // assettion should asset to true.
+    @Test
+    void toTokenTestPrivate(){
+        Modifier modifier = Modifier.privateModifier();
+        int token = LexicalDifferenceCalculator.toToken(modifier);
+        assertEquals(token, GeneratedJavaParserConstants.PRIVATE);
+    }
+
+    // Test that covers branch 3.
+    // Creates a modifier with the protected keyword.
+    // Checks so that the toToken method returns the correct
+    // constant (token).
+    // assettion should asset to true.
+    @Test
+    void toTokenTestProtected(){
+        Modifier modifier = Modifier.protectedModifier();
+        int token = LexicalDifferenceCalculator.toToken(modifier);
+        assertEquals(token, GeneratedJavaParserConstants.PROTECTED);
+    }
+
+    // Test that covers branch 4.
+    // Creates a modifier with the static keyword.
+    // Checks so that the toToken method returns the correct
+    // constant (token).
+    // assettion should asset to true.
+    @Test
+    void toTokenTestStatic(){
+        Modifier modifier = Modifier.staticModifier();
+        int token = LexicalDifferenceCalculator.toToken(modifier);
+        assertEquals(token, GeneratedJavaParserConstants.STATIC);
+    }
+
+    // Test that covers branch 5.
+    // Creates a modifier with the final keyword.
+    // Checks so that the toToken method returns the correct
+    // constant (token).
+    // assertion should asset to true.
+    @Test
+    void toTokenTestFinal(){
+        Modifier modifier = Modifier.finalModifier();
+        int token = LexicalDifferenceCalculator.toToken(modifier);
+        assertEquals(token, GeneratedJavaParserConstants.FINAL);
+    }
+
+    // Test that covers branch 6.
+    // Creates a modifier with the abstract keyword.
+    // Checks so that the toToken method returns the correct
+    // constant (token).
+    // assertion should asset to true.
+    @Test
+    void toTokenTestAbstract(){
+        Modifier modifier = Modifier.abstractModifier();
+        int token = LexicalDifferenceCalculator.toToken(modifier);
+        assertEquals(token, GeneratedJavaParserConstants.ABSTRACT);
+    }
+
+    // Test that covers branch 7.
+    // Creates a modifier with the TRANSIENT keyword.
+    // Checks so that the toToken method returns the correct
+    // constant (token).
+    // assertion should asset to true.
+    @Test
+    void toTokenTestTransient(){
+        Modifier modifier = Modifier.transientModifier();
+        int token = LexicalDifferenceCalculator.toToken(modifier);
+        assertEquals(token, GeneratedJavaParserConstants.TRANSIENT);
+    }
+
+
+    // Test that covers branch 8.
+    // Creates a modifier with the synchronized keyword.
+    // Checks so that the toToken method returns the correct
+    // constant (token).
+    // assertion should asset to true.
+    @Test
+    void toTokenTestSynchronized(){
+        Modifier modifier = Modifier.synchronizedModifier();
+        int token = LexicalDifferenceCalculator.toToken(modifier);
+        assertEquals(token, GeneratedJavaParserConstants.SYNCHRONIZED);
+    }
+
+    // Test that covers branch 9.
+    // Creates a modifier with the volatile keyword.
+    // Checks so that the toToken method returns the correct
+    // constant (token).
+    // assertion should asset to true.
+    @Test
+    void toTokenTestVolatile(){
+        Modifier modifier = Modifier.volatileModifier();
+        int token = LexicalDifferenceCalculator.toToken(modifier);
+        assertEquals(token, GeneratedJavaParserConstants.VOLATILE);
+    }
+
+    // Test that covers branch 10.
+    // Creates a modifier with the native keyword.
+    // Checks so that the toToken method returns the correct
+    // constant (token).
+    // assertion should asset to true.
+    @Test
+    void toTokenTestNative(){
+        Modifier modifier = Modifier.nativeModifier();
+        int token = LexicalDifferenceCalculator.toToken(modifier);
+        assertEquals(token, GeneratedJavaParserConstants.NATIVE);
+    }
+
+    // Test that covers branch 11.
+    // Creates a modifier with the STRICTFP strictfp keyword.
+    // Checks so that the toToken method returns the correct
+    // constant (token).
+    // assertion should asset to true.
+    @Test
+    void toTokenTestStrictfp(){
+        Modifier modifier = Modifier.strictfpModifier();
+        int token = LexicalDifferenceCalculator.toToken(modifier);
+        assertEquals(token, GeneratedJavaParserConstants.STRICTFP);
+    }
+
+    // Test that covers branch 12.
+    // Creates a modifier with the transitive keyword.
+    // Checks so that the toToken method returns the correct
+    // constant (token).
+    // assertion should asset to true.
+    @Test
+    void toTokenTestTransitive(){
+        Modifier modifier = Modifier.transitiveModifier();
+        int token = LexicalDifferenceCalculator.toToken(modifier);
+        assertEquals(token, GeneratedJavaParserConstants.TRANSITIVE);
+    }
+
+    // Test that covers branch 13.
+    // Creates a modifier with the deafult keyword.
+    // Checks so that the toToken method throws an exeption.
+    // assertion should asset to true.
+    @Test()
+    void toTokenTestException(){
+        Modifier modifier = new Modifier(Modifier.Keyword.DEFAULT);
+
+        Exception exception = assertThrows(UnsupportedOperationException.class, () -> {
+            LexicalDifferenceCalculator.toToken(modifier);
+        });
+
+        String expectedMessage = "DEFAULT";
+        String actualMessage = exception.getMessage();
+
+        assertTrue(actualMessage.contains(expectedMessage));
+    }
+
 
     // Code from project
 
