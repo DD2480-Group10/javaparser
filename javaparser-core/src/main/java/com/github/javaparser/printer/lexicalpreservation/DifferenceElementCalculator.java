@@ -20,6 +20,7 @@
  */
 package com.github.javaparser.printer.lexicalpreservation;
 
+import com.github.javaparser.CodeCoverage;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.type.Type;
@@ -70,21 +71,29 @@ class DifferenceElementCalculator {
 
     static boolean matching(CsmElement a, CsmElement b) {
         if (a instanceof CsmChild) {
+            CodeCoverage.setFlag(1); //branch
             if (b instanceof CsmChild) {
+                CodeCoverage.setFlag(2); //branch
                 CsmChild childA = (CsmChild) a;
                 CsmChild childB = (CsmChild) b;
                 return childA.getChild().equals(childB.getChild());
             } else if (b instanceof CsmToken) {
+                CodeCoverage.setFlag(3); //branch
                 return false;
             } else if (b instanceof CsmIndent) {
+                CodeCoverage.setFlag(4); //branch
                 return false;
             } else if (b instanceof CsmUnindent) {
+                CodeCoverage.setFlag(5); //branch
                 return false;
             } else {
+                CodeCoverage.setFlag(6); //branch
                 throw new UnsupportedOperationException(a.getClass().getSimpleName() + " " + b.getClass().getSimpleName());
             }
         } else if (a instanceof CsmToken) {
+            CodeCoverage.setFlag(7); //branch
             if (b instanceof CsmToken) {
+                CodeCoverage.setFlag(8); //branch
                 // fix #2382:
                 // Tokens are described by their type AND their content
                 // and TokenContentCalculator. By using .equals(), all
@@ -93,19 +102,26 @@ class DifferenceElementCalculator {
                 CsmToken childB = (CsmToken) b;
                 return childA.equals(childB);
             } else if (b instanceof CsmChild) {
+                CodeCoverage.setFlag(9); //branch
                 return false;
             } else if (b instanceof CsmIndent) {
+                CodeCoverage.setFlag(10); //branch
                 return false;
             } else if (b instanceof CsmUnindent) {
+                CodeCoverage.setFlag(11); //branch
                 return false;
             } else {
+                CodeCoverage.setFlag(12); //branch
                 throw new UnsupportedOperationException(a.getClass().getSimpleName() + " " + b.getClass().getSimpleName());
             }
         } else if (a instanceof CsmIndent) {
+            CodeCoverage.setFlag(13); //branch
             return b instanceof CsmIndent;
         } else if (a instanceof CsmUnindent) {
+            CodeCoverage.setFlag(14); //branch
             return b instanceof CsmUnindent;
         }
+        CodeCoverage.setFlag(15); //branch
         throw new UnsupportedOperationException(a.getClass().getSimpleName() + " " + b.getClass().getSimpleName());
     }
 

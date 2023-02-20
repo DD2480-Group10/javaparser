@@ -518,67 +518,51 @@ public class LexicalPreservingPrinter {
     // 
     private static void prettyPrintingTextNode(Node node, NodeText nodeText) {
         if (node instanceof PrimitiveType) {
-            CodeCoverage.setFlag(1); //branch 1
             PrimitiveType primitiveType = (PrimitiveType) node;
             switch(primitiveType.getType()) {
                 case BOOLEAN:
-                    CodeCoverage.setFlag(3); //branch
                     nodeText.addToken(BOOLEAN, node.toString());
                     break;
                 case CHAR:
-                    CodeCoverage.setFlag(4); //branch 4
                     nodeText.addToken(CHAR, node.toString());
                     break;
                 case BYTE:
-                    CodeCoverage.setFlag(5); //branch 5
                     nodeText.addToken(BYTE, node.toString());
                     break;
                 case SHORT:
-                    CodeCoverage.setFlag(6); //branch 6
                     nodeText.addToken(SHORT, node.toString());
                     break;
                 case INT:
-                    CodeCoverage.setFlag(7); //branch 7
                     nodeText.addToken(INT, node.toString());
                     break;
                 case LONG:
-                    CodeCoverage.setFlag(8); //branch 8
                     nodeText.addToken(LONG, node.toString());
                     break;
                 case FLOAT:
-                    CodeCoverage.setFlag(9); //branch 9
                     nodeText.addToken(FLOAT, node.toString());
                     break;
                 case DOUBLE:
-                    CodeCoverage.setFlag(10); //branch 10
                     nodeText.addToken(DOUBLE, node.toString());
                     break;
                 default:
-                    CodeCoverage.setFlag(11); //branch 11
                     throw new IllegalArgumentException();
             }
             return;
         } else {
-            CodeCoverage.setFlag(2); //branch 2
         }
         if (node instanceof JavadocComment) {
-            CodeCoverage.setFlag(12); //branch 12
         	Comment comment = (JavadocComment) node;
             nodeText.addToken(JAVADOC_COMMENT, comment.getHeader() + ((JavadocComment) node).getContent() + comment.getFooter());
             return;
         } else {
-            CodeCoverage.setFlag(13); //branch 13
         }
         if (node instanceof BlockComment) {
-            CodeCoverage.setFlag(14); //branch 14
         	Comment comment = (BlockComment) node;
             nodeText.addToken(MULTI_LINE_COMMENT, comment.getHeader() + ((BlockComment) node).getContent() + comment.getFooter());
             return;
         } else {
-            CodeCoverage.setFlag(15); //branch 15
         }
         if (node instanceof LineComment) {
-            CodeCoverage.setFlag(16); //branch 16
         	Comment comment = (LineComment) node;
             nodeText.addToken(SINGLE_LINE_COMMENT, comment.getHeader() + comment.getContent());
             return;
@@ -586,12 +570,10 @@ public class LexicalPreservingPrinter {
             CodeCoverage.setFlag(17); //branch 17
         }
         if (node instanceof Modifier) {
-            CodeCoverage.setFlag(18); //branch 18
             Modifier modifier = (Modifier) node;
             nodeText.addToken(LexicalDifferenceCalculator.toToken(modifier), modifier.getKeyword().asString());
             return;
         } else {
-            CodeCoverage.setFlag(19); //branch 19
         }
         interpret(node, ConcreteSyntaxModel.forClass(node.getClass()), nodeText);
     }
