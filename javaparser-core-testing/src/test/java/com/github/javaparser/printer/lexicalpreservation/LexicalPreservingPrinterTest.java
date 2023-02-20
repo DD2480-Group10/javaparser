@@ -60,32 +60,16 @@ class LexicalPreservingPrinterTest extends AbstractLexicalPreservingTest {
     // Tests on TextNode definition
     //
 
-    private static String[] testInfoArr;
-    private static int testIndex;
-
     @BeforeAll
     public static void beforeAllTest() {
         CodeCoverage.clearFlagArr();
-        testInfoArr =  new String[100];
-        testIndex = 0;
-    }
-
-    @AfterEach
-    public void afterEachTest() {
-        String testInfo = CodeCoverage.getTestInfo();
-        if(testInfo != "") {
-            testInfoArr[testIndex] = testInfo;
-        }
-        CodeCoverage.clearFlagArr();
-        testIndex++;
-
-
     }
 
     @AfterAll
     public static void afterAllTests(){
+        String testInfo = CodeCoverage.getTestInfo();
         try {
-            CodeCoverage.writeBranchCoverage("lexicalPreservingPrinterTest.txt",testInfoArr);
+            CodeCoverage.writeBranchCoverage("lexicalPreservingPrinterTest.txt", testInfo);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
