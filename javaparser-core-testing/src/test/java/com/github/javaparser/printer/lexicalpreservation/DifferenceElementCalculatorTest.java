@@ -36,6 +36,7 @@ import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.type.ArrayType;
 import com.github.javaparser.ast.type.PrimitiveType;
 import com.github.javaparser.printer.ConcreteSyntaxModel;
+import com.github.javaparser.printer.SourcePrinter;
 import com.github.javaparser.printer.concretesyntaxmodel.CsmElement;
 import com.github.javaparser.printer.concretesyntaxmodel.CsmIndent;
 import com.github.javaparser.printer.concretesyntaxmodel.CsmToken;
@@ -58,6 +59,8 @@ import static com.github.javaparser.ast.Modifier.Keyword.PUBLIC;
 import static com.github.javaparser.ast.Modifier.createModifierList;
 import static com.github.javaparser.printer.lexicalpreservation.DifferenceElement.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class DifferenceElementCalculatorTest extends AbstractLexicalPreservingTest {
     private static String[] testInfoArr;
@@ -89,6 +92,61 @@ class DifferenceElementCalculatorTest extends AbstractLexicalPreservingTest {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+    @Test
+    void coverBranch4(){
+        CsmChild a = new CsmChild(cu);
+        CsmIndent b = new CsmIndent();
+        assertFalse(DifferenceElementCalculator.matching(a, b));
+    }
+    @Test
+    void coverBranch5(){
+        CsmChild a = new CsmChild(cu);
+        CsmUnindent b = new CsmUnindent();
+        assertFalse(DifferenceElementCalculator.matching(a, b));
+    }
+    
+    @Test
+    void coverBranch6(){
+        CsmElement b = new CsmElement() {
+
+            @Override
+            public void prettyPrint(Node node, SourcePrinter printer) {
+                // TODO Auto-generated method stub
+                
+            } 
+            
+        };
+        CsmChild a = new CsmChild(cu);
+        assertThrows(UnsupportedOperationException.class, () -> DifferenceElementCalculator.matching(a, b));
+    }
+    @Test
+    void coverBranch12(){
+        CsmElement b = new CsmElement() {
+
+            @Override
+            public void prettyPrint(Node node, SourcePrinter printer) {
+                // TODO Auto-generated method stub
+                
+            } 
+            
+        };
+        CsmToken a = new CsmToken(testIndex);
+        assertThrows(UnsupportedOperationException.class, () -> DifferenceElementCalculator.matching(a, b));
+    }
+    @Test
+    void coverBranch15(){
+        CsmElement a = new CsmElement() {
+
+            @Override
+            public void prettyPrint(Node node, SourcePrinter printer) {
+                // TODO Auto-generated method stub
+                
+            } 
+            
+        };
+        CsmUnindent b = new CsmUnindent();
+        assertThrows(UnsupportedOperationException.class, () -> DifferenceElementCalculator.matching(a, b));
     }
     @Test
     void calculateDifferenceEmpty() {
