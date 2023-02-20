@@ -21,6 +21,7 @@
 
 package com.github.javaparser.printer.lexicalpreservation;
 
+import com.github.javaparser.*;
 import com.github.javaparser.GeneratedJavaParserConstants;
 import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.Node;
@@ -41,6 +42,9 @@ import com.github.javaparser.printer.concretesyntaxmodel.CsmElement;
 import com.github.javaparser.printer.concretesyntaxmodel.CsmToken;
 import com.github.javaparser.printer.lexicalpreservation.LexicalDifferenceCalculator.CsmChild;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 
 import java.io.IOException;
 import java.util.List;
@@ -53,6 +57,38 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class LexicalDifferenceCalculatorTest extends AbstractLexicalPreservingTest {
+
+    // Code for DIY test coverage
+    private static String[] testInfoArr;
+    private static int testIndex;
+
+    @BeforeAll
+    public static void beforeAllTest() {
+        CodeCoverage.clearFlagArr();
+        testInfoArr =  new String[200];
+        testIndex = 0;
+    }
+
+    @AfterEach
+    public void afterEachTest() {
+        String testInfo = CodeCoverage.getTestInfo();
+        if(testInfo != "") {
+            testInfoArr[testIndex] = testInfo;
+        }
+        CodeCoverage.clearFlagArr();
+        testIndex++;
+    }
+
+    @AfterAll
+    public static void afterAllTests(){
+        try {
+            CodeCoverage.writeBranchCoverage("lexicalDifferenceCalculatorTest.txt",testInfoArr);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    // Code from project
 
     @Test
     void compilationUnitExampleOriginal() {

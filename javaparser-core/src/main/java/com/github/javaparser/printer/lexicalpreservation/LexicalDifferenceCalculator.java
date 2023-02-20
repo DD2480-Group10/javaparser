@@ -37,6 +37,8 @@ import com.github.javaparser.utils.LineSeparator;
 
 import java.util.*;
 
+import com.github.javaparser.CodeCoverage;
+
 class LexicalDifferenceCalculator {
 
     /**
@@ -315,30 +317,43 @@ class LexicalDifferenceCalculator {
     public static int toToken(Modifier modifier) {
         switch(modifier.getKeyword()) {
             case PUBLIC:
+                CodeCoverage.setFlag(1); // Branch 1
                 return GeneratedJavaParserConstants.PUBLIC;
             case PRIVATE:
+                CodeCoverage.setFlag(2); // Branch 2
                 return GeneratedJavaParserConstants.PRIVATE;
             case PROTECTED:
+                CodeCoverage.setFlag(3); // Branch 3
                 return GeneratedJavaParserConstants.PROTECTED;
             case STATIC:
+                CodeCoverage.setFlag(4); // Branch 4
                 return GeneratedJavaParserConstants.STATIC;
             case FINAL:
+                CodeCoverage.setFlag(5); // Branch 5
                 return GeneratedJavaParserConstants.FINAL;
             case ABSTRACT:
+                CodeCoverage.setFlag(6); // Branch 6
                 return GeneratedJavaParserConstants.ABSTRACT;
             case TRANSIENT:
+                CodeCoverage.setFlag(7); // Branch 7
                 return GeneratedJavaParserConstants.TRANSIENT;
             case SYNCHRONIZED:
+                CodeCoverage.setFlag(8); // Branch 8
                 return GeneratedJavaParserConstants.SYNCHRONIZED;
             case VOLATILE:
+                CodeCoverage.setFlag(9); // Branch 9
                 return GeneratedJavaParserConstants.VOLATILE;
             case NATIVE:
+                CodeCoverage.setFlag(10); // Branch 10
                 return GeneratedJavaParserConstants.NATIVE;
             case STRICTFP:
+                CodeCoverage.setFlag(11); // Branch 11
                 return GeneratedJavaParserConstants.STRICTFP;
             case TRANSITIVE:
+                CodeCoverage.setFlag(12); // Branch 12
                 return GeneratedJavaParserConstants.TRANSITIVE;
             default:
+                CodeCoverage.setFlag(13); // Branch 13
                 throw new UnsupportedOperationException(modifier.getKeyword().name());
         }
     }
