@@ -214,6 +214,7 @@ These are the methods which are refacored to receive the extra point.
 |-|-|-|-|-|-|-|
 |matching|Hans Stammler|feat/#14|61%|13|5|git diff feat/#7 feat/#14
 |prettyPrintingTextNode|Claudia Berlin|refactor/#12|57%|14|6|git diff test/#6 refactor/#12|
+|toToken| Adam Giscombe Schmidt| refactor/#24| 69%| 13 | 4 | git diff test/#11 refacotr/#24|
 
 ## Coverage
 
@@ -293,6 +294,7 @@ Number of test cases added: two per team member (P) or at least four (P+).
 
 - *Hans*: added 5 test cases for 100% coverage (from 87%).
 - *Claudia*: Added 5 test cases for prettyPrintingTextNode. It increased the coverage from 68 % to 84 % (JaCoCo) and from 53 % to 78 % (our manual coverage tool).
+- *Adam*: Added 13 test cases for toToken increased coverage from 38% to 100%.
 
 ## Self-assessment: Way of working
 
