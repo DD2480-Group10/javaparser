@@ -33,26 +33,39 @@ We will go forward with this project
 The complexity calculation
 Is provided in a separate branch for the following methods
 
-- *findNodeListName * Cylomatic complexity: 15,  lizard evaluated to 14
-- *findIndexOfCorrespondingNodeTextElement * Cylomatic complexity: 16,  lizard evaluated to 15
-- *cleanLines* Cylomatic complexity: 6, lizard evaluated to 14.
-- *toBinaryOperator* Cyclomatic complexity: 2, lizard evaluated to 12.
-- *prettyPrintingTextNode* Cyclomatic complexity: 14, lizard evaluated to 14.
-- *cleanTheLineOfLeftOverSpace* Cyclomatic complexity: 14, lizard evaluated to 15.
-- *matching*: Cyclomatic complexity: 13, lizard evaluated to 13
-- *calculate*: lizard evaluated to 13
+|Method|Calculated CC|Lizard CC|  
+| ----------- | -----------   |--------| 
+|findNodeListName | 15| 14|
+|findIndexOfCorrespondingNodeTextElement | 16|15 |
+|cleanLines |6 | 14|
+|toBinaryOperator | 2| 12|
+|cleanTheLineOfLeftOverSpace |14 |14 |
+|prettyPrintingTextNode| 14| 14|
+|matching|13|13|
+|calculate|12|13|
+|toToken|13|13|
+|isAssignableMatchTypeParametersMatchingQName| 14| 14|
+
+Some of us calculated the branch coverage by first drawing the control flow graph by hand and then used the formula M = E - N + 2. Alternatively we also used the formula decision points - exit points + 2 for some functions with multiple exit points. 
+
 
 
 2. Are the functions just complex, or also long?
 
-- *findNodeListName * Cylomatic complexity: 38 lines of code
-- *findIndexOfCorrespondingNodeTextElement * 47 lines of code
-- *cleanLines* 36 lines of code.
-- *toBinaryOperator*  28 lines of code.
-- *prettyPrintingTextNode* 55 lines of code.
-- *cleanTheLineOfLeftOverSpace* 27 lines of code.
-- *matching* 36 lines of code
-- *calculate* 13 lines of code
+|Method|Lizard CC|Lines of code|
+| -----------|-----------|--------|
+|findNodeListName | 14| 38|
+|findIndexOfCorrespondingNodeTextElement | 15|47 |
+|cleanLines |14 | 36|
+|toBinaryOperator | 12| 28|
+|cleanTheLineOfLeftOverSpace |15 |27 |
+|prettyPrintingTextNode| 14| 55|
+|matching|13|36|
+|calculate|13|13|
+|toToken|13|33
+|isAssignableMatchTypeParametersMatchingQName|14|39
+
+As shown in the table most of the methods are not very long or medium length, so they are mostly just complex. Note that toBinaryOperator decreased from 12 to 2 when doing it by hand compared to lizard. This is probably because lizard most likely counts certain keywords. For example *if*, *else*, *for* etc that sometimes affects the complexity estimation. As such these tools are not always a good measure of the actual complexity depending on how the theory is applied it can yield different results.
 
 3. What is the purpose of the functions?
 
@@ -74,6 +87,12 @@ Is provided in a separate branch for the following methods
 
 - *calculate*: calculate the Difference between two CalculatedSyntaxModel elements, determining which elements were kept, which were added and which were removed
 
+- *toToken*: Convert a keyword enum into a corresponding int.
+
+- *isAssignableMatchTypeParametersMatchingQName*: Check if two reference types given parameters have matching qualify names.
+
+
+
 4. Are exceptions taken into account in the given measurements?
 
 - The language uses exceptions, but they are not used in most of the methods, as such it does not seem to affect the Cyclomatic Complexity for most of the chosen methods. In one method where there are exceptions, removing them does not seem to affect the cyclomatic complexity measurement in lizard either.
@@ -92,6 +111,9 @@ Is provided in a separate branch for the following methods
 - *calculate* The comment explains only what the expected input and outputs are.
 - *cleanTheLinesOfLeftOverSpace* Has some sort of documentation of the possible outcomes.
 - *prettyPrintingTextNode* Has almost no documentation at all.
+- *toToken*: Has no no documentation at all. 
+- *isAssignableMatchTypeParametersMatchingQName*: Has no ducomentation except internal method comments that explain little.
+
 
 ## Refactoring
 
@@ -269,8 +291,8 @@ Test cases added:
 
 Number of test cases added: two per team member (P) or at least four (P+).
 
-Hans: added 5 test cases for 100% coverage.
-Claudia: Added 5 test cases for prettyPrintingTextNode. It increased the coverage from 68 % to 84 % (JaCoCo) and from 53 % to 78 % (our manual coverage tool).
+- *Hans*: added 5 test cases for 100% coverage (from 87%).
+- *Claudia*: Added 5 test cases for prettyPrintingTextNode. It increased the coverage from 68 % to 84 % (JaCoCo) and from 53 % to 78 % (our manual coverage tool).
 
 ## Self-assessment: Way of working
 
