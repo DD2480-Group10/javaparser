@@ -9,7 +9,8 @@ public class CodeCoverage {
     private static boolean[] codeCoverageArr = new boolean[100];
 
     /**
-     * Used to keep track of the branches that have been taken in a given function.
+     * Used to keep track of the branches that have been taken in a given function.3
+     *
      * @param id for a given branch.
      */
     public static void setFlag(int id) {
@@ -19,13 +20,14 @@ public class CodeCoverage {
 
     /**
      * Concatenate the ID's of the set flags to one string, which is then return.
+     *
      * @return String containing all the set flags from array codeCoverageArr.
      */
     public static String getTestInfo() {
         String branches = "";
-        for(int i=0; i < 100; i++) {
+        for (int i = 0; i < 100; i++) {
             boolean flag = codeCoverageArr[i];
-            if(flag) {
+            if (flag) {
                 branches += i + " ";
             }
         }
@@ -36,24 +38,17 @@ public class CodeCoverage {
      * Resets the array codeCoverageArr
      */
     public static void clearFlagArr() {
-        Arrays.fill(codeCoverageArr,false);
+        Arrays.fill(codeCoverageArr, false);
     }
 
 
     /**
      * Creates file and then writes the branch coverage information the file.
      */
-    public static void writeBranchCoverage(String fileName, String[] testInfo) throws IOException {
+    public static void writeBranchCoverage(String fileName, String testInfo) throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
-        for(String elem: testInfo) {
-            if (elem != null) {
-                writer.write("The branches with " + elem + " has been reached \n");
-            }
-        }
+        writer.write("The branches with ID: " + testInfo + " have been reached \n");
         writer.close();
 
     }
-
-
-
 }
