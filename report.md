@@ -10,17 +10,17 @@ Javaparser is a Java 1-15 Parser and Abstract Syntax Tree for Java, including pr
 
 ## Onboarding experience
 
-#### javaparser
 
 1\. Did it build and run as documented?
 - We needed to install maven to build the software.
-- It was documented regarding how to install and build the software
-- Yes, there were other components installed (maven dependencies and plugins).
-- Yes, outside of some initial build issues related to the JAVA versions, and operative systems used it run as documented as there was not much information regarding building the project.
-- It had Tests run: 1693, Failures: 0, Errors: 0, Skipped: 28 when running “mvn test”
-- When running the java test folder for javaparser-core it passed 1897 tests, and skipped 7 tests
-
-
+- It was well documented regarding where to download the tool and how to build the software with it. 
+- Other components were installed automatically with maven (dependencies and plugins).
+- The build succeeded without errors, after resolving some initial build issues related to the JAVA versions
+and operative systems used. 
+- The project have multiple test folders, where most of the tests run without any issues. 
+- In total: it had 4234 tests run, 0 failures, 0 errors and 35 skipped. 
+- But for the test folder for javaparser-core-testing (the one we focused on) it 
+passed 1902 tests and skipped 7 tests.
 
 2\. Do you plan to continue or choose another project?
 
@@ -98,30 +98,15 @@ As shown in the table most of the methods are not very long or medium length, so
 - The language uses exceptions, but they are not used in most of the methods, as such it does not seem to affect the Cyclomatic Complexity for most of the chosen methods. In one method where there are exceptions, removing them does not seem to affect the cyclomatic complexity measurement in lizard either.
 
 5. Is the documentation clear w.r.t. all the possible outcomes?
-
-- *cleanLines* Has little to no documentation, but the method name, and header is telling.
-
-- *toBinaryOperator* Has no documentation, but the methods goal is fairly simple.
-
-- *findNodeListName* Has no documentation (but method name reveals the purpose)
-- *findIndexOfCorrespondingNodeTextElement* Has no documentation (but method name reveals the purpose)
-- *binaryToOperator* Lacks extensive documentation regarding the outcomes
-- *cleanLines* Lacks extensive documentation regarding the outcomes.
-- *matching* Has no documentation, but is pretty understandable anyways.
-- *calculate* The comment explains only what the expected input and outputs are.
-- *cleanTheLinesOfLeftOverSpace* Has some sort of documentation of the possible outcomes.
-- *prettyPrintingTextNode* Has almost no documentation at all.
-- *toToken*: Has no no documentation at all. 
-- *isAssignableMatchTypeParametersMatchingQName*: Has no ducomentation except internal method comments that explain little.
-
+- None of the methods we looked at had clear documentation about the different possible outcomes induced
+by different branches taken. Most of them had little to no documentation at all.
 
 ## Refactoring
 
-Plan for refactoring complex code:
+### Plan for refactoring complex code:
 
-### findNodeListName
-- *Refactoring plan*:
-  This method has a section were after a if-statement it set:
+#### findNodeListName
+ This method has a section were after a if-statement it set:
   String name = m.getName();
   if (name.startsWith("get")) {
   name = name.substring("get".length());
@@ -129,8 +114,8 @@ Plan for refactoring complex code:
   return ObservableProperty.fromCamelCaseName(decapitalize(name));
 This is repeated for a second if-statement later in the method. So this section could be refactored into a separate method. So instead of having to write this whole section again it could call the other method. This would reduce the CC with 2 points from 15 to 13.
 
-### cleanLines
-- *Refactoring plan*: If we want to simplify the cleanLines method to reduce the cyclomatic complexity we can do so
+#### cleanLines
+ If we want to simplify the cleanLines method to reduce the cyclomatic complexity we can do so
   by splitting up the method into two separate methods.
   It could be done by collecting the lines, and then returning them at line 119 in the JavadocParser class.
   Since the method is now split up into separate methods the
@@ -185,23 +170,27 @@ private static List<String> cleanLines(String content) {
    }
   ```
 
-### prettyPrintingTextNode
-- *Refactoring plan*:
-  The high complexity isn’t really needed for this method. It has a lot fo if/else statements and switch statements, due to handling many different node types. One way to go about refactoring this method is to split up the method into two smaller ones. Where the whole switch statemet is moved to a separate method, that prettyPrintingTextNode calls to when needed. 
+#### prettyPrintingTextNode
+ The high complexity isn’t really needed for this method. 
+It has a lot fo if/else statements and switch statements, due to handling many different node types.
+One way to go about refactoring this method is to split up the method into two smaller ones.
+Where the whole switch statemet can be moved to a separate method, that prettyPrintingTextNode calls to when needed. 
 
-### matching
-- *Refactoring plan*: Most of the complexity in this method comes from the fact that it needs to validate the input objects to see if they are one of four types. To refactor i will take the validation step out of the method and make it a separate method. The rest of the code will be cleaned up to be as concise as possible.
+#### matching
+ Most of the complexity in this method comes from the fact that it needs to validate the input objects to see if they are one of four types. To refactor i will take the validation step out of the method and make it a separate method. The rest of the code will be cleaned up to be as concise as possible.
 
-### toToken
+#### toToken
 - Refractoring for this method while possible, would not make the code any less complex since the high complexity is necessary for this method to function.
 - *Refractoring plan*: A way to decrece the CC of this method would be to split the switch into two methods. So that the default branch of the first switch calls and then returns the results of a method that contains the other half of the switch case. 
 
 
-Estimated impact of refactoring (lower CC, but other drawbacks?).
+### Estimated impact of refactoring (lower CC, but other drawbacks?).
 
 - *cleanLines*: Reduced CC, but the total number lines of code is not reduced. Could also improve testing due the lower CC. In order to improve the refactoring and code quality further a more thorough refactoring could be implemented.
 
-- *prettyPrintingTextNode*: The CC would be reduced, by how much I am not completly sure. I think that it will get lowered by a lot, due to the switch statement being very large. But the number of lines wouldn't be decreased. In this case I am not sure what the drawback could be, maybe a perfromance hit due to need to call to a separate function instead on keeping it all on the same function. 
+- *prettyPrintingTextNode*: The CC would be reduced a lot, due to the switch statement being very large.  
+But the number of lines wouldn't decrease. One drawback could maybe be that you get a performance hit due 
+to the need of calling on a separate method sometimes instead on keeping it all on the same function. 
 
 - *matching*: The CC will be lowered from and the number of lines will be reduced. To be honest legibility is probably going to be somewhat decreased from this, and the code might not be as self-explaining as it was before.
 
@@ -210,34 +199,31 @@ Estimated impact of refactoring (lower CC, but other drawbacks?).
 ### Refactored methods (optional, P+):
 
 These are the methods which are refacored to receive the extra point.
+
 |Method|Name|Branch|% decrease|Pre-CC|Post-CC|git command|
 |-|-|-|-|-|-|-|
 |matching|Hans Stammler|feat/#14|61%|13|5|git diff feat/#7 feat/#14
 |prettyPrintingTextNode|Claudia Berlin|refactor/#12|57%|14|6|git diff test/#6 refactor/#12|
-|toToken| Adam Giscombe Schmidt| refactor/#24| 69%| 13 | 4 | git diff test/#11 refacotr/#24|
+|toToken| Adam Giscombe Schmidt| refactor/#24| 69%| 13 | 4 | git diff test/#11 refactor/#24|
 
 ## Coverage
 
 ### Tools
 
-Document your experience in using a "new"/different coverage tool.
-
-How well was the tool documented? Was it possible/easy/difficult to
-integrate it with your build environment?
+#### How well was the tool documented? Was it possible/easy/difficult to integrate it with your build environment?
 
 Jacoco was a really convenient and useful coverage tool. It generated an index webpage where you could navigate to any file/method and see complexity, LOC and branch coverage. Jacoco came already included in the project we chose so no setup was needed and thus we cannot really comment on the set up and documentation.
 
 ### Your own coverage tool
 
-Show a patch (or link to a branch) that shows the instrumented code to
-gather coverage measurements.
+#### Show a patch (or link to a branch) that shows the instrumented code to gather coverage measurements.
 
 - Our tool can be found on branch: *feat/#4*. Where the class CodeCoverage.java contains the datastructure and methods of our tool. Meanwhile, LexicalPreservingPrinterTest.java and LexicalPreservingPrinter.java shows how it can be used.  
 
 - The command “git diff master feat/#4” shows how our coverage tool was implemented and how the flags were set in *prettyPrintingTextNode*. 
 
 
-What kinds of constructs does your tool support, and how accurate is its output?
+#### What kinds of constructs does your tool support, and how accurate is its output?
 
 The way the tool was implemented is such that it has to be called within the test files where your method is called for it to count branches reached there. Becasue of this it will not count branches reached by indirect calls to the method outside of the test file. As such the branch coverage might be less than reported in Jacoco, but it works accurately for all tests in the same file.
 
@@ -255,7 +241,7 @@ The tool can not account for calls to the function from outside the specific tes
 
 3. Are the results of your tool consistent with existing coverage tools?
 
-It is not as consistent as intelliJ’s built in tool, or jacoco. See answer to 2.
+It is not as consistent as intelliJ’s built in tool, or JaCoCo. For example when running the our own implemented coverage tool for the method prettyPrintingTextNode we got 10/19, meanwhile JaCoCo got 12/19. 
 
 ## Coverage improvement
 
@@ -263,7 +249,7 @@ Show the comments that describe the requirements for the coverage.
 
 Report of old coverage:
 - Note that *Manual BC* is calculated using the developed coverage tool.
-- Note that the JaCoCo report is generated after running mvn test and is to large to be added to git. 
+- The JaCoCo report isn't in the repo due to consisting of too many files. But it's automatically generated when running 'mvn clean test' and can be found on: "javaparser-core-testing/target/site/jacoco/index.html"
 
 |Method|Jacoco BC|Manual BC|branch|
 |-|-|-|-|
@@ -283,37 +269,31 @@ Report of new coverage:
 
 Test cases added:
 
-|Method|git command|# tests added|
-|-|-|-|
-|matching|git diff feat/#7 feat/#13 | 5|
-|toBinaryOperator|git diff test/#22 feat/#21|2|
-|prettyPrintingTextNode|git diff feat/#4 test/#6|5|
-|toToken| git diff feat/#10 test/#11| 13
+|Method|Name|TestClass|#Tests added|Test names|Branch|Git command|
+|-|-|-|-|-|-|-|
+|matching|Hans Stammler|DifferenceElementCalculatorTest.java| 5|coverBranch4(), coverBranch5(), coverBranch6(), coverBranch12(), coverBranch15()|feat/#13|git diff feat/#7 feat/#13
+|toBinaryOperator|Jesper Önell|AssignExprTest.java|2|convertMinusOperator(), converMultiplytOperator()|test/#22|git diff test/#22 feat/#21
+|prettyPrintingTextNode|Claudia Berlin|LexicalPreservingPrinterTest.java|5|checkNodeTextCreatedForCharType(), checkNodeTextCreatedForByteType(), checkNodeTextCreatedForShortType(), checkNodeTextCreatedForLongType(),  checkNodeTextCreatedForDoubleType()|test/#6|git diff feat/#4 test/#6
+|toToken|Adam Giscombe Schmidt|LexicalDifferenceCalculatorTest.java| 13|toTokenTestPublic(), toTokenTestPrivate(), toTokenTestProtected(), toTokenTestStatic(),      toTokenTestFinal(), toTokenTestAbstract(), toTokenTestTransient(), toTokenTestSynchronized(), toTokenTestVolatile(), toTokenTestNative(), toTokenTestStrictfp(), toTokenTestTransitive(), toTokenTestException() |test/#11| git diff feat/#10 test/#11
 
-Number of test cases added: two per team member (P) or at least four (P+).
-
-- *Hans*: added 5 test cases for 100% coverage (from 87%).
-- *Claudia*: Added 5 test cases for prettyPrintingTextNode. It increased the coverage from 68 % to 84 % (JaCoCo) and from 53 % to 78 % (our manual coverage tool).
-- *Adam*: Added 13 test cases for toToken increased coverage from 38% to 100%.
-- *Jesper*: Added to test cases for toBinaryOperator to bring up the coverage from 8% to 25%. The tests are found in the AssignExprTest class in the test/#22 branch.
 
 ## Self-assessment: Way of working
 
-Current state according to the Essence standard:
+### Current state according to the Essence standard:
 
 According to the essence checklist, we are currently residing on the *“In Place”-level*. We consider ourselves to have fulfilled the checklist items before *“In Place”*. We have discussed the project thoroughly in person and via online meetings to get all group members working in tandem and to familiarize ourselves with the chosen tools. However, it is a new group we do not yet fulfill the *“Working well”-level*, but we are heading towards it.
 
 
+### Was the self-assessment unanimous? Any doubts about certain items?
 
+Yes we agreed on the self-assement and there weren't any doubts about any items.  
 
-Was the self-assessment unanimous? Any doubts about certain items?
-
-How have you improved so far?
+### How have you improved so far?
 - We have learned how to search for and work on open source software as a group.
 - We have learned the underlying theory of cyclomatic complexity.
-- We have implemented a branch coverage tool.
+- We have learned how to implement a simple a branch coverage tool and also how to use existing ones.
 
-Where is potential for improvement?
+### Where is potential for improvement?
 
 - Better understanding of the open source project.
 - Improved testing.
@@ -328,3 +308,9 @@ Open source is powerful, but difficult.
 Is there something special you want to mention here?
 
 In the future compile a list of open source projects checked by the staff to clearly state that they are accessible, working, and easier to judge grade-wise.
+
+
+## Attempting P+  
+- Hans Stammler 
+- Adam Giscombe Schmidt
+- Claudia Berlin 
