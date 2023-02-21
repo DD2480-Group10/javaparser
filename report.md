@@ -41,6 +41,8 @@ Is provided in a separate branch for the following methods
 - *cleanTheLineOfLeftOverSpace* Cyclomatic complexity: 14, lizard evaluated to 15.
 - *matching*: Cyclomatic complexity: 13, lizard evaluated to 13
 - *calculate*: lizard evaluated to 13
+- *toToken*: Cyclomatic complexity: 13, lizard evaluated to 13
+- *isAssignableMatchTypeParametersMatchingQName*: lizard evaluated to 14.
 
 
 2. Are the functions just complex, or also long?
@@ -53,6 +55,8 @@ Is provided in a separate branch for the following methods
 - *cleanTheLineOfLeftOverSpace* 27 lines of code.
 - *matching* 36 lines of code
 - *calculate* 13 lines of code
+- *toToken* 29 lines of code
+- *isAssignableMatchTypeParametersMatchingQName* 47 lines of code
 
 3. What is the purpose of the functions?
 
@@ -74,6 +78,10 @@ Is provided in a separate branch for the following methods
 
 - *calculate*: calculate the Difference between two CalculatedSyntaxModel elements, determining which elements were kept, which were added and which were removed
 
+- *toToken*: Convert a keyword enum into a corrensponding int.
+
+- *isAssignableMatchTypeParametersMatchingQName*: Check if two reference types given parameters have matching qualify names.
+
 4. Are exceptions taken into account in the given measurements?
 
 - The language uses exceptions, but they are not used in most of the methods, as such it does not seem to affect the Cyclomatic Complexity for most of the chosen methods. In one method where there are exceptions, removing them does not seem to affect the cyclomatic complexity measurement in lizard either.
@@ -92,6 +100,8 @@ Is provided in a separate branch for the following methods
 - *calculate* The comment explains only what the expected input and outputs are.
 - *cleanTheLinesOfLeftOverSpace* Has some sort of documentation of the possible outcomes.
 - *prettyPrintingTextNode* Has almost no documentation at all.
+- *toToken*: Has no no documentation at all. 
+- *isAssignableMatchTypeParametersMatchingQName*: Has no ducomentation except internal method comments that explain little.
 
 ## Refactoring
 
@@ -203,6 +213,7 @@ Number of test cases added: two per team member (P) or at least four (P+).
 
 Hans: added 5 test cases for 100% coverage.
 Claudia: Added 5 test cases for prettyPrintingTextNode. It increased the coverage from 68 % to 84 % (JaCoCo) and from 53 % to 78 % (our manual coverage tool).
+Adam: added 13 test cases to toToken for 100% coverage (up from 38%).
 
 ## Self-assessment: Way of working
 
