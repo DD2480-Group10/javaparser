@@ -66,7 +66,7 @@ class LexicalPreservingPrinterTest extends AbstractLexicalPreservingTest {
     @BeforeAll
     public static void beforeAllTest() {
         CodeCoverage.clearFlagArr();
-        testInfoArr =  new String[100];
+        testInfoArr =  new String[1000];
         testIndex = 0;
     }
 

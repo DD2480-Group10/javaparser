@@ -19,7 +19,6 @@
  * GNU Lesser General Public License for more details.
  */
 package com.github.javaparser.ast.expr;
-
 import com.github.javaparser.CodeCoverage;
 import com.github.javaparser.TokenRange;
 import com.github.javaparser.ast.AllFieldsConstructor;

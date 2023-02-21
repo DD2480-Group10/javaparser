@@ -69,4 +69,15 @@ class AssignExprTest {
     void convertOperator() {
         assertEquals(BinaryExpr.Operator.PLUS, AssignExpr.Operator.PLUS.toBinaryOperator().get());
     }
+    /*
+     * Added two tests to improve coverage
+     */
+    @Test
+    void convertMinusOperator() {
+        assertEquals(BinaryExpr.Operator.MINUS, AssignExpr.Operator.MINUS.toBinaryOperator().get());
+    }
+    @Test
+    void converMultiplytOperator() {
+        assertEquals(BinaryExpr.Operator.MULTIPLY, AssignExpr.Operator.MULTIPLY.toBinaryOperator().get());
+    }
 }
