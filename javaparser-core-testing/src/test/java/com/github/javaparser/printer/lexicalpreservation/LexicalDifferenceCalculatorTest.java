@@ -98,7 +98,7 @@ class LexicalDifferenceCalculatorTest extends AbstractLexicalPreservingTest {
     // Creates a modifier with the public keyword.
     // Checks so that the toToken method returns the correct
     // constant (token).
-    // assettion should asset to true.
+    // assertion should asset to true.
     @Test
     void toTokenTestPublic(){
         Modifier modifier = Modifier.publicModifier();
@@ -110,7 +110,7 @@ class LexicalDifferenceCalculatorTest extends AbstractLexicalPreservingTest {
     // Creates a modifier with the private keyword.
     // Checks so that the toToken method returns the correct
     // constant (token).
-    // assettion should asset to true.
+    // assertion should asset to true.
     @Test
     void toTokenTestPrivate(){
         Modifier modifier = Modifier.privateModifier();
@@ -122,7 +122,7 @@ class LexicalDifferenceCalculatorTest extends AbstractLexicalPreservingTest {
     // Creates a modifier with the protected keyword.
     // Checks so that the toToken method returns the correct
     // constant (token).
-    // assettion should asset to true.
+    // assertion should asset to true.
     @Test
     void toTokenTestProtected(){
         Modifier modifier = Modifier.protectedModifier();
@@ -134,7 +134,7 @@ class LexicalDifferenceCalculatorTest extends AbstractLexicalPreservingTest {
     // Creates a modifier with the static keyword.
     // Checks so that the toToken method returns the correct
     // constant (token).
-    // assettion should asset to true.
+    // assertion should asset to true.
     @Test
     void toTokenTestStatic(){
         Modifier modifier = Modifier.staticModifier();
