@@ -295,6 +295,7 @@ Number of test cases added: two per team member (P) or at least four (P+).
 - *Hans*: added 5 test cases for 100% coverage (from 87%).
 - *Claudia*: Added 5 test cases for prettyPrintingTextNode. It increased the coverage from 68 % to 84 % (JaCoCo) and from 53 % to 78 % (our manual coverage tool).
 - *Adam*: Added 13 test cases for toToken increased coverage from 38% to 100%.
+- *Jesper*: Added to test cases for toBinaryOperator to bring up the coverage from 8% to 25%. The tests are found in the AssignEprTest class in the test/#22 branch.
 
 ## Self-assessment: Way of working
 
