@@ -88,6 +88,13 @@ class JavadocParser {
         return string;
     }
 
+    /*
+     * If we want to simply the cleanLines method to reduce the cyclomatic complexity we can do so
+     * by splitting up the method to two separate methods.
+     * It could be done by collecting the lines, and then returning them at line 119.
+     * Since the method is now split up into separate methods the
+     * cyclomatic complexity for both of these will be < 10, thus reducing the complexity.
+     */
     private static List<String> cleanLines(String content) {
         String[] lines = content.split(SYSTEM_EOL);
         if (lines.length == 0) {
@@ -110,6 +117,10 @@ class JavadocParser {
             }
         }).collect(Collectors.toList());
         // lines containing only whitespace are normalized to empty lines
+        /*
+         * Here we can return the cleanedLines and send it to the new method.
+         * The rest of the method can be refactored to the new method to reduce the complexity.
+         */
         cleanedLines = cleanedLines.stream().map(l -> l.trim().isEmpty() ? "" : l).collect(Collectors.toList());
         // if the first starts with a space, remove it
         if (!cleanedLines.get(0).isEmpty() && (cleanedLines.get(0).charAt(0) == ' ' || cleanedLines.get(0).charAt(0) == '\t')) {
@@ -124,6 +135,7 @@ class JavadocParser {
         }
         return cleanedLines;
     }
+
 
     // Visible for testing
     static int startsWithAsterisk(String line) {
