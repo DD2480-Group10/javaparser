@@ -6,7 +6,7 @@ Name: javaparser
 
 URL: https://github.com/javaparser/javaparser
 
-Javaparser is a Java 1-15 Parser and Abstract Syntax Tree for Java, including preview features to Java 13.
+Javaparser is a Java 1-15 Parser and Abstract Syntax Tree for Java, including preview features to Java 13. 
 
 ## Onboarding experience
 
@@ -41,8 +41,6 @@ Is provided in a separate branch for the following methods
 - *cleanTheLineOfLeftOverSpace* Cyclomatic complexity: 14, lizard evaluated to 15.
 - *matching*: Cyclomatic complexity: 13, lizard evaluated to 13
 - *calculate*: lizard evaluated to 13
-- *toToken*: Cyclomatic complexity: 13, lizard evaluated to 13
-- *isAssignableMatchTypeParametersMatchingQName*: lizard evaluated to 14.
 
 
 2. Are the functions just complex, or also long?
@@ -55,12 +53,10 @@ Is provided in a separate branch for the following methods
 - *cleanTheLineOfLeftOverSpace* 27 lines of code.
 - *matching* 36 lines of code
 - *calculate* 13 lines of code
-- *toToken* 29 lines of code
-- *isAssignableMatchTypeParametersMatchingQName* 47 lines of code
 
 3. What is the purpose of the functions?
 
-- *findNodeListName *: No code comment but method name and return string in error case: “Cannot find list name of NodeList of size” shows that it’s purpose is to find the name of a NodeList
+- *findNodeListName*: No code comment but method name and return string in error case: “Cannot find list name of NodeList of size” shows that it’s purpose is to find the name of a NodeList
 
 - *findIndexOfCorrespondingNodeTextElement*: No code comments but name of method reveals it’s purpose is to find the index of a NodeText element
 
@@ -77,10 +73,6 @@ Is provided in a separate branch for the following methods
 - *matching*: checks if two “concrete syntax model elements” are matching, i.e. identical, checks that both elements are the same type and where applicable that they have the same contents.
 
 - *calculate*: calculate the Difference between two CalculatedSyntaxModel elements, determining which elements were kept, which were added and which were removed
-
-- *toToken*: Convert a keyword enum into a corrensponding int.
-
-- *isAssignableMatchTypeParametersMatchingQName*: Check if two reference types given parameters have matching qualify names.
 
 4. Are exceptions taken into account in the given measurements?
 
@@ -100,8 +92,6 @@ Is provided in a separate branch for the following methods
 - *calculate* The comment explains only what the expected input and outputs are.
 - *cleanTheLinesOfLeftOverSpace* Has some sort of documentation of the possible outcomes.
 - *prettyPrintingTextNode* Has almost no documentation at all.
-- *toToken*: Has no no documentation at all. 
-- *isAssignableMatchTypeParametersMatchingQName*: Has no ducomentation except internal method comments that explain little.
 
 ## Refactoring
 
@@ -115,7 +105,6 @@ Plan for refactoring complex code:
   name = name.substring("get".length());
   }
   return ObservableProperty.fromCamelCaseName(decapitalize(name));
-
 This is repeated for a second if-statement later in the method. So this section could be refactored into a separate method. So instead of having to write this whole section again it could call the other method. This would reduce the CC with 2 points from 15 to 13.
 
 ### cleanLines
@@ -123,39 +112,88 @@ This is repeated for a second if-statement later in the method. So this section 
   by splitting up the method into two separate methods.
   It could be done by collecting the lines, and then returning them at line 119 in the JavadocParser class.
   Since the method is now split up into separate methods the
-  cyclomatic complexity for both of these will be < 10, thus reducing the complexity. A more extensive refactoring plan was done in branch doc/#18
+  cyclomatic complexity for both of these will be < 10, thus reducing the complexity. 
+```java 
+/*
+* If we want to simplify the cleanLines method to reduce the cyclomatic complexity we can do so
+* by splitting up the method to two separate methods.
+* It could be done by collecting the lines, and then returning them at line 119, line 29 in this code snippet.
+* Since the method is now split up into separate methods the
+* cyclomatic complexity for both of these will be < 10, thus reducing the complexity.
+*/
+private static List<String> cleanLines(String content) {
+       String[] lines = content.split(SYSTEM_EOL);
+       if (lines.length == 0) {
+           return Collections.emptyList();
+       }
+       List<String> cleanedLines = Arrays.stream(lines).map(l -> {
+           int asteriskIndex = startsWithAsterisk(l);
+           if (asteriskIndex == -1) {
+               return l;
+           } else {
+               // if a line starts with space followed by an asterisk drop to the asterisk
+               // if there is a space immediately after the asterisk drop it also
+               if (l.length() > (asteriskIndex + 1)) {
+                   char c = l.charAt(asteriskIndex + 1);
+                   if (c == ' ' || c == '\t') {
+                       return l.substring(asteriskIndex + 2);
+                   }
+               }
+               return l.substring(asteriskIndex + 1);
+           }
+       }).collect(Collectors.toList());
+       // lines containing only whitespace are normalized to empty lines
+       /*
+       * Here we can return the cleanedLines and send it to the new method.
+       * The rest of the method can be refactored to the new method to reduce the complexity.
+       */
+       cleanedLines = cleanedLines.stream().map(l -> l.trim().isEmpty() ? "" : l).collect(Collectors.toList());
+       // if the first starts with a space, remove it
+       if (!cleanedLines.get(0).isEmpty() && (cleanedLines.get(0).charAt(0) == ' ' || cleanedLines.get(0).charAt(0) == '\t')) {
+           cleanedLines.set(0, cleanedLines.get(0).substring(1));
+       }
+       // drop empty lines at the beginning and at the end
+       while (cleanedLines.size() > 0 && cleanedLines.get(0).trim().isEmpty()) {
+           cleanedLines = cleanedLines.subList(1, cleanedLines.size());
+       }
+       while (cleanedLines.size() > 0 && cleanedLines.get(cleanedLines.size() - 1).trim().isEmpty()) {
+           cleanedLines = cleanedLines.subList(0, cleanedLines.size() - 1);
+       }
+       return cleanedLines;
+   }
+  ```
 
 ### prettyPrintingTextNode
 - *Refactoring plan*:
-  For this function the high complexity isn’t really necessary, there are multiple if/else statements and switch statements. Due to the function handling nodes of multiple types, it is possible to split it up into multiple functions. The simplest way would be to have the switch statements on a different method, which is called upon when the node is an instance of primitive data type.
+  The high complexity isn’t really needed for this method. It has a lot fo if/else statements and switch statements, due to handling many different node types. One way to go about refactoring this method is to split up the method into two smaller ones. Where the whole switch statemet is moved to a separate method, that prettyPrintingTextNode calls to when needed. 
 
 ### matching
 - *Refactoring plan*: Most of the complexity in this method comes from the fact that it needs to validate the input objects to see if they are one of four types. To refactor i will take the validation step out of the method and make it a separate method. The rest of the code will be cleaned up to be as concise as possible.
 
-The refactoring plans are included in a separate refactoring branch.
-
-### Refactored methods:
-
-- *matching*: is refactored in branch #14.
-
-- *prettyPrintingTextNode* is in branch refactor/#12. The CC was reduced from 14 to 6. The command “git diff test/#6 refactor/#12” shows the changes that were made in the refactoring.
+### toToken
+- Refractoring for this method while possible, would not make the code any less complex since the high complexity is necessary for this method to function.
+- *Refractoring plan*: A way to decrece the CC of this method would be to split the switch into two methods. So that the default branch of the first switch calls and then returns the results of a method that contains the other half of the switch case. 
 
 
 Estimated impact of refactoring (lower CC, but other drawbacks?).
 
 - *cleanLines*: Reduced CC, but the total number lines of code is not reduced. Could also improve testing due the lower CC. In order to improve the refactoring and code quality further a more thorough refactoring could be implemented.
 
-- *prettyPrintingTextNode*:  The CC was lowered from 14 to 6 (57 % decrease, P+) but the total number of lines wasn’t reduced, due to only splitting it up into two methods.
+- *prettyPrintingTextNode*: The CC would be reduced, by how much I am not completly sure. I think that it will get lowered by a lot, due to the switch statement being very large. But the number of lines wouldn't be decreased. In this case I am not sure what the drawback could be, maybe a perfromance hit due to need to call to a separate function instead on keeping it all on the same function. 
 
-- *matching*: The CC was lowered from 13 to 5 (61% decrease, gib P+), and the number of lines were reduced. To be honest legibility is somewhat decreased from this, and the function does not really explain itself as it did before.
+- *matching*: The CC will be lowered from and the number of lines will be reduced. To be honest legibility is probably going to be somewhat decreased from this, and the code might not be as self-explaining as it was before.
 
-Carried out refactoring (optional, P+):
+- *toToken*: The planned refractoring of this method would reduce the CC by 11 - 1 depending on were the switch is split. Spliting early (i.e moving alot of the case arms to a new method) would reduce the CC more then spliting late (i.e moving only a few arms to the new method).
 
-- *matching*: is refactored in branch #14. The CC was lowered from 13 to 5 (61% decrease, gib P+) git diff in DifferenceElementCalculator,.java is 16 additions, 40 deletions.
+### Refactored methods (optional, P+):
+
+These are the methods which are refacored to receive the extra point.
+|Method|Name|Branch|% decrease|Pre-CC|Post-CC|git command|
+|-|-|-|-|-|-|-|
+|matching|Hans Stammler|feat/#14|61%|13|5|git diff feat/#7 feat/#14
+|prettyPrintingTextNode|Claudia Berlin|refactor/#12|57%|14|6|git diff test/#6 refactor/#12|
 
 ## Coverage
-
-Jacoco was a really convenient and useful coverage tool. It generated an index webpage where you could navigate to any file/method and see complexity, LOC and branch coverage. Jacoco came already included in the project we chose so no setup was needed and thus we cannot really comment on the set up and documentation.
 
 ### Tools
 
@@ -164,22 +202,21 @@ Document your experience in using a "new"/different coverage tool.
 How well was the tool documented? Was it possible/easy/difficult to
 integrate it with your build environment?
 
+Jacoco was a really convenient and useful coverage tool. It generated an index webpage where you could navigate to any file/method and see complexity, LOC and branch coverage. Jacoco came already included in the project we chose so no setup was needed and thus we cannot really comment on the set up and documentation.
+
 ### Your own coverage tool
 
 Show a patch (or link to a branch) that shows the instrumented code to
 gather coverage measurements.
 
-The patch is probably too long to be copied here, so please add
-the git command that is used to obtain the patch instead:
+- Our tool can be found on branch: *feat/#4*. Where the class CodeCoverage.java contains the datastructure and methods of our tool. Meanwhile, LexicalPreservingPrinterTest.java and LexicalPreservingPrinter.java shows how it can be used.  
 
-git diff …
+- The command “git diff master feat/#4” shows how our coverage tool was implemented and how the flags were set in *prettyPrintingTextNode*. 
 
 
-What kinds of constructs does your tool support, and how accurate is
-its output?
+What kinds of constructs does your tool support, and how accurate is its output?
 
-- The command “git diff master feat/#4” shows how our coverage tool was implemented and how the flags were sets in *prettyPrintingTextNode*. It also shows the text file that was generated from the tests.
-
+The way the tool was implemented is such that it has to be called within the test files where your method is called for it to count branches reached there. Becasue of this it will not count branches reached by indirect calls to the method outside of the test file. As such the branch coverage might be less than reported in Jacoco, but it works accurately for all tests in the same file.
 
 ### Evaluation
 
@@ -201,25 +238,45 @@ It is not as consistent as intelliJ’s built in tool, or jacoco. See answer to 
 
 Show the comments that describe the requirements for the coverage.
 
-Report of old coverage: [link]
+Report of old coverage:
+- Note that *Manual BC* is calculated using the developed coverage tool.
+- Note that the JaCoCo report is generated after running mvn test and is to large to be added to git. 
 
-Report of new coverage: [link]
+|Method|Jacoco BC|Manual BC|branch|
+|-|-|-|-|
+|matching|87%|10/15|feat/#7|
+|toBinaryOperator|8%|1/12|feat/#21|
+|prettyPrintingTextNode|12/19 (68 %)|10/19 (53%)|feat/#4|
+|toToken|38%|0/13|feat/#10|
+
+
+Report of new coverage:
+|Method|Jacoco BC|Manual BC|branch|
+|-|-|-|-|
+|matching|100%|15/15|feat/#13|
+|toBinaryOperator|25%|3/12|test/#22|
+|prettyPrintingTextNode|16/19 (84%)|15/19 (79%)|test/#6|
+|toToken| 100% | 13/13| test/#11
 
 Test cases added:
 
-git diff ...
+|Method|git command|# tests added|
+|-|-|-|
+|matching|git diff feat/#7 feat/#13 | 5|
+|toBinaryOperator|git diff test/#22 feat/#21|2|
+|prettyPrintingTextNode|git diff feat/#4 test/#6|5|
+|toToken| git diff feat/#10 test/#11| 13
 
 Number of test cases added: two per team member (P) or at least four (P+).
 
 Hans: added 5 test cases for 100% coverage.
 Claudia: Added 5 test cases for prettyPrintingTextNode. It increased the coverage from 68 % to 84 % (JaCoCo) and from 53 % to 78 % (our manual coverage tool).
-Adam: added 13 test cases to toToken for 100% coverage (up from 38%).
 
 ## Self-assessment: Way of working
 
-Current state according to the Essence standard: …
+Current state according to the Essence standard:
 
-According to the essence checklist, we are currently residing on the “In Place”-level. We consider ourselves to have fulfilled the checklist items before “In Place”. We have discussed the project thoroughly in person and via online meetings to get all group members working in tandem and to familiarize ourselves with the chosen tools. However, it is a new group we do not yet fulfill the “Working well”-level, but we are heading towards it.
+According to the essence checklist, we are currently residing on the *“In Place”-level*. We consider ourselves to have fulfilled the checklist items before *“In Place”*. We have discussed the project thoroughly in person and via online meetings to get all group members working in tandem and to familiarize ourselves with the chosen tools. However, it is a new group we do not yet fulfill the *“Working well”-level*, but we are heading towards it.
 
 
 
@@ -227,15 +284,15 @@ According to the essence checklist, we are currently residing on the “In Place
 Was the self-assessment unanimous? Any doubts about certain items?
 
 How have you improved so far?
-We have learned how to search for and work on open source software as a group.
-We have learned the underlying theory of cyclomatic complexity.
-We have implemented a branch coverage tool.
+- We have learned how to search for and work on open source software as a group.
+- We have learned the underlying theory of cyclomatic complexity.
+- We have implemented a branch coverage tool.
 
 Where is potential for improvement?
 
-Better understanding of the open source project.
-Improved testing.
-Improved coverage tool.
+- Better understanding of the open source project.
+- Improved testing.
+- Improved coverage tool.
 
 ## Overall experience
 
