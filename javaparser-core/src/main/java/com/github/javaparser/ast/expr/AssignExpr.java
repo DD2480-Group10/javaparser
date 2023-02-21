@@ -20,6 +20,7 @@
  */
 package com.github.javaparser.ast.expr;
 
+import com.github.javaparser.CodeCoverage;
 import com.github.javaparser.TokenRange;
 import com.github.javaparser.ast.AllFieldsConstructor;
 import com.github.javaparser.ast.Generated;
@@ -77,28 +78,52 @@ public class AssignExpr extends Expression {
         public Optional<BinaryExpr.Operator> toBinaryOperator() {
             switch(this) {
                 case PLUS:
+                    // Branch 1
+                    CodeCoverage.setFlag(1);
                     return Optional.of(BinaryExpr.Operator.PLUS);
                 case MINUS:
+                    // Branch 2
+                    CodeCoverage.setFlag(2);
                     return Optional.of(BinaryExpr.Operator.MINUS);
                 case MULTIPLY:
+                    // Branch 3
+                    CodeCoverage.setFlag(3);
                     return Optional.of(BinaryExpr.Operator.MULTIPLY);
                 case DIVIDE:
+                    // Branch 4
+                    CodeCoverage.setFlag(4);
                     return Optional.of(BinaryExpr.Operator.DIVIDE);
                 case BINARY_AND:
+                    // Branch 5
+                    CodeCoverage.setFlag(5);
                     return Optional.of(BinaryExpr.Operator.BINARY_AND);
                 case BINARY_OR:
+                    // Branch 6
+                    CodeCoverage.setFlag(6);
                     return Optional.of(BinaryExpr.Operator.BINARY_OR);
                 case XOR:
+                    // Branch 7
+                    CodeCoverage.setFlag(7);
                     return Optional.of(BinaryExpr.Operator.XOR);
                 case REMAINDER:
+                    // Branch 8
+                    CodeCoverage.setFlag(8);
                     return Optional.of(BinaryExpr.Operator.REMAINDER);
                 case LEFT_SHIFT:
+                    // Branch 9
+                    CodeCoverage.setFlag(9);
                     return Optional.of(BinaryExpr.Operator.LEFT_SHIFT);
                 case SIGNED_RIGHT_SHIFT:
+                    // Branch 11
+                    CodeCoverage.setFlag(10);
                     return Optional.of(BinaryExpr.Operator.SIGNED_RIGHT_SHIFT);
                 case UNSIGNED_RIGHT_SHIFT:
+                    // Branch 12
+                    CodeCoverage.setFlag(11);
                     return Optional.of(BinaryExpr.Operator.UNSIGNED_RIGHT_SHIFT);
                 default:
+                    // Branch 1
+                    CodeCoverage.setFlag(12);
                     return Optional.empty();
             }
         }

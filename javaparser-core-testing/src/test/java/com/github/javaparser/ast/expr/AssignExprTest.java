@@ -21,11 +21,50 @@
 
 package com.github.javaparser.ast.expr;
 
+import com.github.javaparser.CodeCoverage;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class AssignExprTest {
+    /*
+     * Coverage tool
+     */
+    private static String[] testInfoArr;
+    private static int testIndex;
+
+    @BeforeAll
+    public static void beforeAllTest() {
+        CodeCoverage.clearFlagArr();
+        testInfoArr =  new String[100];
+        testIndex = 0;
+    }
+
+    @AfterEach
+    public void afterEachTest() {
+        String testInfo = CodeCoverage.getTestInfo();
+        if(testInfo != "") {
+            testInfoArr[testIndex] = testInfo;
+        }
+        CodeCoverage.clearFlagArr();
+        testIndex++;
+
+
+    }
+
+    @AfterAll
+    public static void afterAllTests(){
+        try {
+            CodeCoverage.writeBranchCoverage("AssignExpr.txt",testInfoArr);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
     @Test
     void convertOperator() {
         assertEquals(BinaryExpr.Operator.PLUS, AssignExpr.Operator.PLUS.toBinaryOperator().get());
