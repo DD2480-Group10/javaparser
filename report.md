@@ -107,11 +107,13 @@ by different branches taken. Most of them had little to no documentation at all.
 
 #### findNodeListName
  This method has a section were after a if-statement it set:
+ ```java
   String name = m.getName();
   if (name.startsWith("get")) {
   name = name.substring("get".length());
   }
   return ObservableProperty.fromCamelCaseName(decapitalize(name));
+  ```
 This is repeated for a second if-statement later in the method. So this section could be refactored into a separate method. So instead of having to write this whole section again it could call the other method. This would reduce the CC with 2 points from 15 to 13.
 
 #### cleanLines
