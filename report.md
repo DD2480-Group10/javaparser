@@ -234,7 +234,7 @@ Test cases added:
 |-|-|-|-|-|-|-|
 |toAssignOperator|Linus Below Blomkvist|BinaryExpr.java|11|convertOperator1, convertOperator2, convertOperator3, convertOperator4, convertOperator5, convertOperator6, convertOperator7, convertOperator8, convertOperator9, convertOperator10, convertOperator11|test/#24|-|
 |matching|Hans Stammler|DifferenceElementCalculatorTest.java| 5|coverBranch4(), coverBranch5(), coverBranch6(), coverBranch12(), coverBranch15()|feat/#13|git diff feat/#7 feat/#13
-|toBinaryOperator|Jesper Önell|AssignExprTest.java|2|convertMinusOperator(), converMultiplyOperator(), convertDivideOperator(), convertBinary_AndOperator()|test/#22|git diff test/#22 feat/#21
+|toBinaryOperator|Jesper Önell|AssignExprTest.java|4|convertMinusOperator(), converMultiplyOperator(), convertDivideOperator(), convertBinary_AndOperator()|test/#22|git diff test/#22 feat/#21
 |prettyPrintingTextNode|Claudia Berlin|LexicalPreservingPrinterTest.java|5|checkNodeTextCreatedForCharType(), checkNodeTextCreatedForByteType(), checkNodeTextCreatedForShortType(), checkNodeTextCreatedForLongType(),  checkNodeTextCreatedForDoubleType()|test/#6|git diff feat/#4 test/#6
 |toToken|Adam Giscombe Schmidt|LexicalDifferenceCalculatorTest.java| 13|toTokenTestPublic(), toTokenTestPrivate(), toTokenTestProtected(), toTokenTestStatic(),      toTokenTestFinal(), toTokenTestAbstract(), toTokenTestTransient(), toTokenTestSynchronized(), toTokenTestVolatile(), toTokenTestNative(), toTokenTestStrictfp(), toTokenTestTransitive(), toTokenTestException() |test/#11| git diff feat/#10 test/#11
 
