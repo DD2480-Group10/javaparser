@@ -121,56 +121,8 @@ This is repeated for a second if-statement later in the method. So this section 
   by splitting up the method into two separate methods.
   It could be done by collecting the lines, and then returning them at line 119 in the JavadocParser class.
   Since the method is now split up into separate methods the
-  cyclomatic complexity for both of these will be < 10, thus reducing the complexity. 
-```java 
-/*
-* If we want to simplify the cleanLines method to reduce the cyclomatic complexity we can do so
-* by splitting up the method to two separate methods.
-* It could be done by collecting the lines, and then returning them at line 119, line 29 in this code snippet.
-* Since the method is now split up into separate methods the
-* cyclomatic complexity for both of these will be < 10, thus reducing the complexity.
-*/
-private static List<String> cleanLines(String content) {
-       String[] lines = content.split(SYSTEM_EOL);
-       if (lines.length == 0) {
-           return Collections.emptyList();
-       }
-       List<String> cleanedLines = Arrays.stream(lines).map(l -> {
-           int asteriskIndex = startsWithAsterisk(l);
-           if (asteriskIndex == -1) {
-               return l;
-           } else {
-               // if a line starts with space followed by an asterisk drop to the asterisk
-               // if there is a space immediately after the asterisk drop it also
-               if (l.length() > (asteriskIndex + 1)) {
-                   char c = l.charAt(asteriskIndex + 1);
-                   if (c == ' ' || c == '\t') {
-                       return l.substring(asteriskIndex + 2);
-                   }
-               }
-               return l.substring(asteriskIndex + 1);
-           }
-       }).collect(Collectors.toList());
-       // lines containing only whitespace are normalized to empty lines
-       /*
-       * Here we can return the cleanedLines and send it to the new method.
-       * The rest of the method can be refactored to the new method to reduce the complexity.
-       */
-       cleanedLines = cleanedLines.stream().map(l -> l.trim().isEmpty() ? "" : l).collect(Collectors.toList());
-       // if the first starts with a space, remove it
-       if (!cleanedLines.get(0).isEmpty() && (cleanedLines.get(0).charAt(0) == ' ' || cleanedLines.get(0).charAt(0) == '\t')) {
-           cleanedLines.set(0, cleanedLines.get(0).substring(1));
-       }
-       // drop empty lines at the beginning and at the end
-       while (cleanedLines.size() > 0 && cleanedLines.get(0).trim().isEmpty()) {
-           cleanedLines = cleanedLines.subList(1, cleanedLines.size());
-       }
-       while (cleanedLines.size() > 0 && cleanedLines.get(cleanedLines.size() - 1).trim().isEmpty()) {
-           cleanedLines = cleanedLines.subList(0, cleanedLines.size() - 1);
-       }
-       return cleanedLines;
-   }
-  ```
+  cyclomatic complexity for both of these will be < 10, thus reducing the complexity. Note that when calculated by hand the 
+  CC was already less than lizard's, but improvments can still be made.
 
 #### prettyPrintingTextNode
  The high complexity isn’t really needed for this method. 
@@ -209,6 +161,7 @@ These are the methods which are refacored to receive the extra point.
 |matching|Hans Stammler|feat/#14|61%|13|5|git diff feat/#7 feat/#14
 |prettyPrintingTextNode|Claudia Berlin|refactor/#12|57%|14|6|git diff test/#6 refactor/#12|
 |toToken| Adam Giscombe Schmidt| refactor/#24| 69%| 13 | 4 | git diff test/#11 refactor/#24|
+|cleanLines|Jesper Önell|feat/#26|50%|6|3|git diff test/#6 feat/#26|
 
 ## Coverage
 
@@ -271,7 +224,7 @@ Report of new coverage:
 |-|-|-|-|
 |toAssignOperator|92%|11/12|test/#24|
 |matching|100%|15/15|feat/#13|
-|toBinaryOperator|25%|3/12|test/#22|
+|toBinaryOperator|42%|5/12|test/#22|
 |prettyPrintingTextNode|16/19 (84%)|15/19 (79%)|test/#6|
 |toToken| 100% | 13/13| test/#11
 
@@ -281,7 +234,7 @@ Test cases added:
 |-|-|-|-|-|-|-|
 |toAssignOperator|Linus Below Blomkvist|BinaryExpr.java|11|convertOperator1, convertOperator2, convertOperator3, convertOperator4, convertOperator5, convertOperator6, convertOperator7, convertOperator8, convertOperator9, convertOperator10, convertOperator11|test/#24|-|
 |matching|Hans Stammler|DifferenceElementCalculatorTest.java| 5|coverBranch4(), coverBranch5(), coverBranch6(), coverBranch12(), coverBranch15()|feat/#13|git diff feat/#7 feat/#13
-|toBinaryOperator|Jesper Önell|AssignExprTest.java|2|convertMinusOperator(), converMultiplytOperator()|test/#22|git diff test/#22 feat/#21
+|toBinaryOperator|Jesper Önell|AssignExprTest.java|2|convertMinusOperator(), converMultiplyOperator(), convertDivideOperator(), convertBinary_AndOperator()|test/#22|git diff test/#22 feat/#21
 |prettyPrintingTextNode|Claudia Berlin|LexicalPreservingPrinterTest.java|5|checkNodeTextCreatedForCharType(), checkNodeTextCreatedForByteType(), checkNodeTextCreatedForShortType(), checkNodeTextCreatedForLongType(),  checkNodeTextCreatedForDoubleType()|test/#6|git diff feat/#4 test/#6
 |toToken|Adam Giscombe Schmidt|LexicalDifferenceCalculatorTest.java| 13|toTokenTestPublic(), toTokenTestPrivate(), toTokenTestProtected(), toTokenTestStatic(),      toTokenTestFinal(), toTokenTestAbstract(), toTokenTestTransient(), toTokenTestSynchronized(), toTokenTestVolatile(), toTokenTestNative(), toTokenTestStrictfp(), toTokenTestTransitive(), toTokenTestException() |test/#11| git diff feat/#10 test/#11
 
@@ -323,3 +276,4 @@ In the future compile a list of open source projects checked by the staff to cle
 - Hans Stammler 
 - Adam Giscombe Schmidt
 - Claudia Berlin 
+- Jesper Önell
