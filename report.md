@@ -120,9 +120,8 @@ This is repeated for a second if-statement later in the method. So this section 
  If we want to simplify the cleanLines method to reduce the cyclomatic complexity we can do so
   by splitting up the method into two separate methods.
   It could be done by collecting the lines, and then returning them at line 119 in the JavadocParser class.
-  Since the method is now split up into separate methods the
-  cyclomatic complexity for both of these will be < 10, thus reducing the complexity. Note that when calculated by hand the 
-  CC was already less than lizard's, but improvments can still be made.
+  Since the method is now split up into separate methods the cyclomatic complexity for these will be reduced. Note that when CC was calculated by hand the 
+  CC was already less than lizard's, but refactoring can still be carried out.
 
 #### prettyPrintingTextNode
  The high complexity isn’t really needed for this method. 
@@ -140,7 +139,7 @@ Where the whole switch statemet can be moved to a separate method, that prettyPr
 
 ### Estimated impact of refactoring (lower CC, but other drawbacks?).
 
--*findNodeListName*: Reduced CC by 4 points since two if and else statements can be replaces with a seperate method
+- *findNodeListName*: Reduced CC by 4 points since two if and else statements can be replaces with a seperate method
 
 - *cleanLines*: Reduced CC, but the total number lines of code is not reduced. Could also improve testing due the lower CC. In order to improve the refactoring and code quality further a more thorough refactoring could be implemented.
 
