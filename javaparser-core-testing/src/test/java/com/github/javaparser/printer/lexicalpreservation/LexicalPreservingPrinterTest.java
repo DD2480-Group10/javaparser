@@ -48,6 +48,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import com.github.javaparser.ast.NodeList;
 
 import static com.github.javaparser.StaticJavaParser.parse;
 import static com.github.javaparser.StaticJavaParser.parseClassOrInterfaceType;
@@ -215,7 +216,16 @@ class LexicalPreservingPrinterTest extends AbstractLexicalPreservingTest {
     }
 
     //------------------------------------------------------------------------------------------------------------
+    //Added test for improved code coverage of the private method findNodeListname
 
+    //@Test
+    //void checkInvalidNodeList() {
+    //    NodeList ListName = new NodeList();
+    //   String test = "ListName";
+    //   assertNotEquals(test, LexicalPreservingPrinter.callfindNodeListName(ListName));
+    //}
+
+    //------------------------------------------------------------------------------------------------------------
 
 
     @Test

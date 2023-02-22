@@ -23,16 +23,82 @@ package com.github.javaparser.ast.expr;
 
 import com.github.javaparser.StaticJavaParser;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import com.github.javaparser.CodeCoverage;
+
+import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class BinaryExprTest {
 
+    @BeforeAll
+    public static void beforeAllTest() {
+        CodeCoverage.clearFlagArr();
+    }
+
+    @AfterAll
+    public static void afterAllTests(){
+        String testInfo = CodeCoverage.getTestInfo();
+        try {
+            CodeCoverage.writeBranchCoverage("BinaryExprTest.txt", testInfo);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Test
     void convertOperator() {
         assertEquals(AssignExpr.Operator.PLUS, BinaryExpr.Operator.PLUS.toAssignOperator().get());
     }
+
+    //Added test for full branch coverage
+    @Test
+    void convertOperator2() {
+        assertEquals(AssignExpr.Operator.MINUS, BinaryExpr.Operator.MINUS.toAssignOperator().get());
+    }
+    @Test
+    void convertOperator3() {
+        assertEquals(AssignExpr.Operator.BINARY_OR, BinaryExpr.Operator.BINARY_OR.toAssignOperator().get());
+    }
+    @Test
+    void convertOperator4() {
+        assertEquals(AssignExpr.Operator.BINARY_AND, BinaryExpr.Operator.BINARY_AND.toAssignOperator().get());
+    }
+
+    @Test
+    void convertOperator5() {
+        assertEquals(AssignExpr.Operator.XOR, BinaryExpr.Operator.XOR.toAssignOperator().get());
+    }
+    @Test
+    void convertOperator6() {
+        assertEquals(AssignExpr.Operator.LEFT_SHIFT, BinaryExpr.Operator.LEFT_SHIFT.toAssignOperator().get());
+    }
+    @Test
+    void convertOperator7() {
+        assertEquals(AssignExpr.Operator.SIGNED_RIGHT_SHIFT, BinaryExpr.Operator.SIGNED_RIGHT_SHIFT.toAssignOperator().get());
+    }
+
+    @Test
+    void convertOperator8() {
+        assertEquals(AssignExpr.Operator.UNSIGNED_RIGHT_SHIFT, BinaryExpr.Operator.UNSIGNED_RIGHT_SHIFT.toAssignOperator().get());
+    }
+
+    @Test
+    void convertOperator9() {
+        assertEquals(AssignExpr.Operator.MULTIPLY, BinaryExpr.Operator.MULTIPLY.toAssignOperator().get());
+    }
+    @Test
+    void convertOperator10() {
+        assertEquals(AssignExpr.Operator.DIVIDE, BinaryExpr.Operator.DIVIDE.toAssignOperator().get());
+    }
+    @Test
+    void convertOperator11() {
+        assertEquals(AssignExpr.Operator.REMAINDER, BinaryExpr.Operator.REMAINDER.toAssignOperator().get());
+    }
+
 
     /**
      * Evaluation takes place left to right, with && taking precedence over ||

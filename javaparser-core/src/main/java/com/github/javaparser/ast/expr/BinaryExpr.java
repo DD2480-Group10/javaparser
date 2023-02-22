@@ -20,6 +20,7 @@
  */
 package com.github.javaparser.ast.expr;
 
+import com.github.javaparser.CodeCoverage;
 import com.github.javaparser.TokenRange;
 import com.github.javaparser.ast.AllFieldsConstructor;
 import com.github.javaparser.ast.Generated;
@@ -31,6 +32,7 @@ import com.github.javaparser.ast.visitor.VoidVisitor;
 import com.github.javaparser.metamodel.BinaryExprMetaModel;
 import com.github.javaparser.metamodel.JavaParserMetaModel;
 import com.github.javaparser.printer.Stringable;
+
 
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -82,28 +84,40 @@ public class BinaryExpr extends Expression {
         public Optional<AssignExpr.Operator> toAssignOperator() {
             switch(this) {
                 case BINARY_OR:
+                    CodeCoverage.setFlag(1);
                     return Optional.of(AssignExpr.Operator.BINARY_OR);
                 case BINARY_AND:
+                    CodeCoverage.setFlag(2);
                     return Optional.of(AssignExpr.Operator.BINARY_AND);
                 case XOR:
+                    CodeCoverage.setFlag(3);
                     return Optional.of(AssignExpr.Operator.XOR);
                 case LEFT_SHIFT:
+                    CodeCoverage.setFlag(4);
                     return Optional.of(AssignExpr.Operator.LEFT_SHIFT);
                 case SIGNED_RIGHT_SHIFT:
+                    CodeCoverage.setFlag(5);
                     return Optional.of(AssignExpr.Operator.SIGNED_RIGHT_SHIFT);
                 case UNSIGNED_RIGHT_SHIFT:
+                    CodeCoverage.setFlag(6);
                     return Optional.of(AssignExpr.Operator.UNSIGNED_RIGHT_SHIFT);
                 case PLUS:
+                    CodeCoverage.setFlag(7);
                     return Optional.of(AssignExpr.Operator.PLUS);
                 case MINUS:
+                    CodeCoverage.setFlag(8);
                     return Optional.of(AssignExpr.Operator.MINUS);
                 case MULTIPLY:
+                    CodeCoverage.setFlag(9);
                     return Optional.of(AssignExpr.Operator.MULTIPLY);
                 case DIVIDE:
+                    CodeCoverage.setFlag(10);
                     return Optional.of(AssignExpr.Operator.DIVIDE);
                 case REMAINDER:
+                    CodeCoverage.setFlag(11);
                     return Optional.of(AssignExpr.Operator.REMAINDER);
                 default:
+                    CodeCoverage.setFlag(12);
                     return Optional.empty();
             }
         }
