@@ -97,7 +97,8 @@ class JavadocParser {
             int asteriskIndex = startsWithAsterisk(l);
             if (asteriskIndex == -1) {
                 return l;
-            } else {
+            }
+            else {
                 // if a line starts with space followed by an asterisk drop to the asterisk
                 // if there is a space immediately after the asterisk drop it also
                 if (l.length() > (asteriskIndex + 1)) {
@@ -111,6 +112,11 @@ class JavadocParser {
         }).collect(Collectors.toList());
         // lines containing only whitespace are normalized to empty lines
         cleanedLines = cleanedLines.stream().map(l -> l.trim().isEmpty() ? "" : l).collect(Collectors.toList());
+        cleanLinesHelper(cleanedLines);
+        return cleanLinesHelper(cleanedLines);
+    }
+
+    private static List<String> cleanLinesHelper(List<String> cleanedLines) {
         // if the first starts with a space, remove it
         if (!cleanedLines.get(0).isEmpty() && (cleanedLines.get(0).charAt(0) == ' ' || cleanedLines.get(0).charAt(0) == '\t')) {
             cleanedLines.set(0, cleanedLines.get(0).substring(1));
@@ -124,6 +130,7 @@ class JavadocParser {
         }
         return cleanedLines;
     }
+
 
     // Visible for testing
     static int startsWithAsterisk(String line) {
