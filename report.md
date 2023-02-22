@@ -186,6 +186,8 @@ Where the whole switch statemet can be moved to a separate method, that prettyPr
 
 ### Estimated impact of refactoring (lower CC, but other drawbacks?).
 
+-*findNodeListName*: Reduced CC by 4 points since two if and else statements can be replaces with a seperate method
+
 - *cleanLines*: Reduced CC, but the total number lines of code is not reduced. Could also improve testing due the lower CC. In order to improve the refactoring and code quality further a more thorough refactoring could be implemented.
 
 - *prettyPrintingTextNode*: The CC would be reduced a lot, due to the switch statement being very large.  
@@ -251,8 +253,11 @@ Report of old coverage:
 - Note that *Manual BC* is calculated using the developed coverage tool.
 - The JaCoCo report isn't in the repo due to consisting of too many files. But it's automatically generated when running 'mvn clean test' and can be found on: "javaparser-core-testing/target/site/jacoco/index.html"
 
+- *comment* regarding test cases: Linus changed from *findNodesListName* to *toAssignOperator* because of problems with data structure
+
 |Method|Jacoco BC|Manual BC|branch|
 |-|-|-|-|
+|toAssignOperator|8%|1/12|test/#23|
 |matching|87%|10/15|feat/#7|
 |toBinaryOperator|8%|1/12|feat/#21|
 |prettyPrintingTextNode|12/19 (68 %)|10/19 (53%)|feat/#4|
@@ -262,6 +267,7 @@ Report of old coverage:
 Report of new coverage:
 |Method|Jacoco BC|Manual BC|branch|
 |-|-|-|-|
+|toAssignOperator|92%|11/12|test/#24|
 |matching|100%|15/15|feat/#13|
 |toBinaryOperator|25%|3/12|test/#22|
 |prettyPrintingTextNode|16/19 (84%)|15/19 (79%)|test/#6|
@@ -271,6 +277,7 @@ Test cases added:
 
 |Method|Name|TestClass|#Tests added|Test names|Branch|Git command|
 |-|-|-|-|-|-|-|
+|toAssignOperator|Linus Below Blomkvist|BinaryExpr.java|11|convertOperator1, convertOperator2, convertOperator3, convertOperator4, convertOperator5, convertOperator6, convertOperator7, convertOperator8, convertOperator9, convertOperator10, convertOperator11|test/#24|-|
 |matching|Hans Stammler|DifferenceElementCalculatorTest.java| 5|coverBranch4(), coverBranch5(), coverBranch6(), coverBranch12(), coverBranch15()|feat/#13|git diff feat/#7 feat/#13
 |toBinaryOperator|Jesper Önell|AssignExprTest.java|2|convertMinusOperator(), converMultiplytOperator()|test/#22|git diff test/#22 feat/#21
 |prettyPrintingTextNode|Claudia Berlin|LexicalPreservingPrinterTest.java|5|checkNodeTextCreatedForCharType(), checkNodeTextCreatedForByteType(), checkNodeTextCreatedForShortType(), checkNodeTextCreatedForLongType(),  checkNodeTextCreatedForDoubleType()|test/#6|git diff feat/#4 test/#6
