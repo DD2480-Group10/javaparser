@@ -77,7 +77,15 @@ class AssignExprTest {
         assertEquals(BinaryExpr.Operator.MINUS, AssignExpr.Operator.MINUS.toBinaryOperator().get());
     }
     @Test
-    void converMultiplytOperator() {
+    void convertMultiplyOperator() {
         assertEquals(BinaryExpr.Operator.MULTIPLY, AssignExpr.Operator.MULTIPLY.toBinaryOperator().get());
+    }
+    @Test
+    void convertDivideOperator() {
+        assertEquals(BinaryExpr.Operator.DIVIDE, AssignExpr.Operator.DIVIDE.toBinaryOperator().get());
+    }
+    @Test
+    void convertBinary_AndOperator() {
+        assertEquals(BinaryExpr.Operator.BINARY_AND, AssignExpr.Operator.BINARY_AND.toBinaryOperator().get());
     }
 }
